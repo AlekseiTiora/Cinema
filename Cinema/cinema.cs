@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +16,13 @@ namespace Cinema
         string[] texts = new string[4];
         TableLayoutPanel tlp = new TableLayoutPanel();
         Button btn_tabel;
+        private Pilet pilet;
 
         public cinema()
         {
         }
+
+
         public cinema(string title, string body, string button1, string button2, string button3, string button4)
         {
 
@@ -83,7 +87,7 @@ namespace Cinema
                     btn_tabel = new Button
                     {
                         Text = string.Format("rida {0}, koht{1}", i + 1, j + 1),
-                        Name = string.Format("btn_{0}{1}", i, j),
+                        Name = string.Format("{0}_{1}", i, j),
                         Dock = DockStyle.Fill,
                         BackColor = Color.LightGreen,
                     };
@@ -91,16 +95,29 @@ namespace Cinema
                     this.tlp.Controls.Add(btn_tabel, j, i);
                 }
             }
-
             this.tlp.Dock = DockStyle.Fill;
-
             this.Controls.Add(tlp);
         }
 
         private void Btn_tabel_MouseClick(object sender, MouseEventArgs e)
         {
             Button b = sender as Button;
-            b.BackColor = Color.Red;
+            b.BackColor = Color.Yellow;
+            string[] rida_koht = b.Name.Split('_');
+            pilet = new Pilet(int.Parse(rida_koht[0]), int.Parse(rida_koht[1]));
+            
+            if(MessageBox.Show("Sinu pilet on: Rida:" +(rida_koht[0]) +"Koht: " + (rida_koht[1]), "Kas ostad?", MessageBoxButtons.YesNo)==DialogResult.Yes)
+            {
+                b.BackColor = Color.Red;
+            }
+            else
+            {
+                b.BackColor=Color.LightGreen;
+            }
+
+
+
+
         }
     }
 }

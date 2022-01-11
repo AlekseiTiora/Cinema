@@ -16,7 +16,7 @@ namespace Cinema
             this.BackgroundImage = Image.FromFile(@"../../img/fon.jpg");
             Button Start_btn = new Button
             {
-                Text = "Osta pilet",
+                Text = "väike saal",
                 Location = new System.Drawing.Point(180, 200),
                 Size = new Size(100,50)
             };
@@ -26,7 +26,8 @@ namespace Cinema
 
         private void Start_btn_Click(object sender, EventArgs e)
         {
-            cinema uus_aken = new cinema(8, 5);
+            cinema uus_aken = new cinema(5, 5);
+            uus_aken.Size = new Size(300, 300);
             uus_aken.StartPosition = FormStartPosition.CenterScreen;
             uus_aken.ShowDialog();
         }
