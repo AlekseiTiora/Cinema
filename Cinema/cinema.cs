@@ -17,6 +17,8 @@ namespace Cinema
         TableLayoutPanel tlp = new TableLayoutPanel();
         Button btn_tabel;
         private Pilet pilet;
+        static string[] read_kohad;
+        static List<Pilet> piletid;
 
         public cinema()
         {
@@ -65,6 +67,9 @@ namespace Cinema
             this.tlp.ColumnStyles.Clear();
             this.tlp.RowStyles.Clear();
             int i, j;
+            read_kohad = Ostetud_piletid();
+            piletid = new List<Pilet> { };
+
             for (i = 0; i < read; i++)
             {
                 this.tlp.RowStyles.Add(new RowStyle(SizeType.Percent));
@@ -99,21 +104,49 @@ namespace Cinema
             this.Controls.Add(tlp);
         }
 
+        public string[] Ostetud_piletid()
+        {
+            try
+            {
+                StreamReader f = new StreamReader(@"..\..\piletid.txt");
+                read_kohad = f.ReadToEnd().Split(';');
+                int kogus = read_kohad.Length;
+                f.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            return read_kohad;
+        }
+
+
         private void Btn_tabel_MouseClick(object sender, MouseEventArgs e)
         {
             Button b = sender as Button;
             b.BackColor = Color.Yellow;
+
+            //using(StreamWriter)
             string[] rida_koht = b.Name.Split('_');
+            var koht = int.Parse(b.Name[1].ToString());
+            var rida = int.Parse(b.Name[0].ToString());
             pilet = new Pilet(int.Parse(rida_koht[0]), int.Parse(rida_koht[1]));
-            
-            if(MessageBox.Show("Sinu pilet on: Rida:" +(rida_koht[0]) +"Koht: " + (rida_koht[1]), "Kas ostad?", MessageBoxButtons.YesNo)==DialogResult.Yes)
+
+            var vas = MessageBox.Show($"Sinu pilet on: Rida: {rida}, Koht: {koht}, Kas tahad ostad?", "Message", MessageBoxButtons.YesNo);
+            if (vas == DialogResult.Yes)
             {
+
                 b.BackColor = Color.Red;
+                using (StreamWriter w = new StreamWriter(@"..\..\piletid.txt", true))
+                {
+                    w.WriteLine($"osta pilet on: koht:{b.Text}");
+                }
             }
             else
-            {
-                b.BackColor=Color.LightGreen;
-            }
+                {
+                    b.BackColor = Color.LightGreen;
+                }
+
 
 
 
