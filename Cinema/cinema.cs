@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,6 +21,7 @@ namespace Cinema
         private Pilet pilet;
         static string[] read_kohad;
         static List<Pilet> piletid;
+        int k, r;
 
         public cinema()
         {
@@ -27,40 +30,80 @@ namespace Cinema
 
         public cinema(string title, string body, string button1, string button2, string button3, string button4)
         {
-
             texts[0] = button1;
             texts[1] = button2;
             texts[2] = button3;
             texts[3] = button4;
-            this.ClientSize = new System.Drawing.Size(500, 00);
+            this.ClientSize = new System.Drawing.Size(400, 100);
             this.Text = title;
             int x = 10;
             for (int i = 0; i < 4; i++)
             {
-                cinema cinema = this;
                 btn[i] = new Button
                 {
-                    Location = new Point(x, 50),
-                    Size = new Size(85, 25),
-                    Text = texts[i],
-
-
+                    Location = new System.Drawing.Point(x, 50),
+                    Size = new System.Drawing.Size(80, 25),
+                    Text = texts[i]
                 };
-                
+                btn[i].Click += MyForm_Click;
                 x += 100;
                 this.Controls.Add(btn[i]);
-
             }
-            message.Location = new Point(10, 10);
+            message.Location = new System.Drawing.Point(10, 10);
             message.Text = body;
             this.Controls.Add(message);
-
-
         }
+        public cinema(string title, string body, string button1, string button2)
+        {
+            texts[0] = button1;
+            texts[1] = button2;
 
-
-
-        public cinema(int kohad, int read)
+            this.ClientSize = new System.Drawing.Size(400, 100);
+            this.Text = title;
+            int x = 10;
+            for (int i = 0; i < 3; i++)
+            {
+                btn[i] = new Button
+                {
+                    Location = new System.Drawing.Point(x, 50),
+                    Size = new System.Drawing.Size(80, 25),
+                    Text = texts[i]
+                };
+                btn[i].Click += MyForm_Click;
+                x += 100;
+                this.Controls.Add(btn[i]);
+            }
+            message.Location = new System.Drawing.Point(10, 10);
+            message.Text = "Kas tahad saada e-mailile?";
+            this.Controls.Add(message);
+        }
+        public string[] Ostetud_piletid()
+        {
+            try
+            {
+                StreamReader f = new StreamReader(@"..\..\piletid.txt");
+                read_kohad = f.ReadToEnd().Split(';');
+                f.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            return read_kohad;
+        }
+        public Button Uusnupp(Action<object, EventArgs> click)
+        {
+            btn_tabel = new Button
+            {
+                Text = string.Format("rida {0},koht {1}", r + 1, k + 1),
+                Name = string.Format("{1}{0}", k + 1, r + 1),
+                Dock = DockStyle.Fill,
+                BackColor = Color.Green
+            };
+            btn_tabel.Click += new EventHandler(Pileti_valik);
+            return btn_tabel;
+        }
+        public cinema(int read, int kohad)
         {
             this.tlp.ColumnCount = kohad;
             this.tlp.RowCount = read;
@@ -75,82 +118,118 @@ namespace Cinema
                 this.tlp.RowStyles.Add(new RowStyle(SizeType.Percent));
                 this.tlp.RowStyles[i].Height = 100 / read;
             }
-
             for (j = 0; j < kohad; j++)
             {
                 this.tlp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent));
                 this.tlp.ColumnStyles[j].Width = 100 / kohad;
             }
-            this.tlp.RowStyles[0].Height = 100 / kohad;
-            this.Size = new System.Drawing.Size(kohad * 100, read * 100);
-
-
-            for (i = 0; i < read; i++)
+            this.Size = new System.Drawing.Size(read * 100, kohad * 100);
+            for (r = 0; r < read; r++)
             {
-                for (j = 0; j < kohad; j++)
+                for (k = 0; k < kohad; k++)
                 {
-                    btn_tabel = new Button
+                    Button btn_tabel = Uusnupp((sender, e) => Pileti_valik(sender, e));
+                    foreach (var item in read_kohad)
                     {
-                        Text = string.Format("rida {0}, koht{1}", i + 1, j + 1),
-                        Name = string.Format("{0}_{1}", i, j),
-                        Dock = DockStyle.Fill,
-                        BackColor = Color.LightGreen,
-                    };
-                    btn_tabel.MouseClick += Btn_tabel_MouseClick;
-                    this.tlp.Controls.Add(btn_tabel, j, i);
+                        if (item.ToString() == btn_tabel.Name)
+                        {
+                            btn_tabel.BackColor = Color.Red;
+                        }
+                    }
+                    this.tlp.Controls.Add(btn_tabel, k, r);
                 }
             }
             this.tlp.Dock = DockStyle.Fill;
             this.Controls.Add(tlp);
+
         }
 
-        public string[] Ostetud_piletid()
+
+        public void Saada_piletid(List<Pilet> piletid)
         {
+            string text = "Sinu ost on \n";
+            foreach (var item in piletid)
+            {
+                text += "Pilet:\n" + "Rida: " + item.Rida + "Koht: " + item.Koht + "\n";
+            }
+
+            //message.Attachments.Add(new Attachment("file.pdf"));
+            string email = "programmeeriminetthk@gmail.com";
+            string password = "2.kuursus";
+            SmtpClient client = new SmtpClient("smtp.gmail.com");
+            client.Port = 587;
+            client.Credentials = new NetworkCredential(email, password);
+            client.EnableSsl = true;
+            //client.UseDefaultCredentials = true;
+
             try
             {
-                StreamReader f = new StreamReader(@"..\..\piletid.txt");
-                read_kohad = f.ReadToEnd().Split(';');
-                int kogus = read_kohad.Length;
-                f.Close();
+
+                MailMessage message = new MailMessage();
+                message.To.Add(new MailAddress("programmeeriminetthk@gmail.com"));//kellele saada vaja küsida
+                message.From = new MailAddress("aleksei.tiora@gmail.com");
+                message.Subject = "Ostetud piletid";
+                message.Body = text;
+                message.IsBodyHtml = true;
+                client.Send(message);
+                //await client.SendMailAsync(message);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(ex.ToString());
             }
-            return read_kohad;
         }
-
-
-        private void Btn_tabel_MouseClick(object sender, MouseEventArgs e)
+        private void Pileti_valik(object sender, EventArgs e)
         {
-            Button b = sender as Button;
-            b.BackColor = Color.Yellow;
-
-            //using(StreamWriter)
-            string[] rida_koht = b.Name.Split('_');
-            var koht = int.Parse(b.Name[1].ToString());
-            var rida = int.Parse(b.Name[0].ToString());
-            pilet = new Pilet(int.Parse(rida_koht[0]), int.Parse(rida_koht[1]));
-
-            var vas = MessageBox.Show($"Sinu pilet on: Rida: {rida}, Koht: {koht}, Kas tahad ostad?", "Message", MessageBoxButtons.YesNo);
+            Button btn_click = (Button)sender;
+            btn_click.BackColor = Color.Yellow;
+            MessageBox.Show(btn_click.Name.ToString());
+            var rida = int.Parse(btn_click.Name[0].ToString());
+            var koht = int.Parse(btn_click.Name[1].ToString());
+            var vas = MessageBox.Show("Sinu pilet on: Rida: " + rida + " Koht: " + koht, "Kas ostad?", MessageBoxButtons.YesNo);
             if (vas == DialogResult.Yes)
             {
-
-                b.BackColor = Color.Red;
-                using (StreamWriter w = new StreamWriter(@"..\..\piletid.txt", true))
+                btn_click.BackColor = Color.Red;
+                try
                 {
-                    w.WriteLine($"osta pilet on: koht:{b.Text}");
+                    Pilet pilet = new Pilet(rida, koht);
+                    piletid.Add(pilet);
+                    StreamWriter ost = new StreamWriter(@"..\..\piletid.txt", true);
+                    ost.Write(btn_click.Name.ToString() + "sina ostnud ;");
+                    ost.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
-            else
-                {
-                    b.BackColor = Color.LightGreen;
-                }
+            else if (vas == DialogResult.No)
+            {
+                btn_click.BackColor = Color.Green;
+            };
 
-
-
-
+            if (MessageBox.Show("Sul on ostetud: " + piletid.Count() + "piletid", "Kas tahad saada neid e-mailile?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                //SendMail("Text");
+                Saada_piletid(piletid);
+            }
 
         }
+        private void MyForm_Click(object sender, EventArgs e)
+        {
+            Button btn_click = (Button)sender;
+            MessageBox.Show("Oli valitud " + btn_click.Text + " nupp");
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Name = "Kino";
+            this.ResumeLayout(false);
+        }
+
+
     }
 }

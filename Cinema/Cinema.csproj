@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\fon.jpg" />
+    <Content Include="img\fon.png" />
     <Content Include="piletid.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
