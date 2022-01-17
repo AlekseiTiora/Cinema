@@ -11,6 +11,7 @@ namespace Cinema
 {
     class Menu: System.Windows.Forms.Form
     {
+        //ei tehtud
         List<string> listfilm;
         PictureBox pb;
         int schet = 0;
