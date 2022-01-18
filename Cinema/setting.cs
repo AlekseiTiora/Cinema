@@ -112,7 +112,7 @@ namespace Cinema
             }
 
             string email = "programmeeriminetthk@gmail.com";
-            string password = "2.kuursus";
+            string password = "2.kuursus tarpv20";
             SmtpClient client = new SmtpClient("smtp.gmail.com");
             client.Port = 587;
             client.Credentials = new NetworkCredential(email, password);
