@@ -14,14 +14,16 @@ namespace Cinema
 
         public zal_form()
         {
+
             this.ClientSize = new System.Drawing.Size(400, 350);
+            this.BackgroundImage = Image.FromFile(@"../../img/fon.jpg");
+
             Button mal_btn = new Button
             {
                 Text = "Väike saal",
                 Location = new System.Drawing.Point(130, 100),//Point(x,y)
                 Height = 50,
                 Width = 150,
-                BackColor = Color.LightYellow
             };
             mal_btn.Click += Mal_btn_Click;
 
@@ -31,7 +33,7 @@ namespace Cinema
                 Location = new System.Drawing.Point(130, 170),//Point(x,y)
                 Height = 50,
                 Width = 150,
-                BackColor = Color.LightYellow
+
             };
             sred_btn.Click += Sred_btn_Click;
 
@@ -41,7 +43,7 @@ namespace Cinema
                 Location = new System.Drawing.Point(130, 240),//Point(x,y)
                 Height = 50,
                 Width = 150,
-                BackColor = Color.LightYellow
+
             };
             bol_btn.Click += Bol_btn_Click;
 
@@ -57,26 +59,26 @@ namespace Cinema
             this.Controls.Add(mal_btn);
             this.Controls.Add(sred_btn);
             this.Controls.Add(bol_btn);
-            this.BackColor = Color.LightSalmon;
+
         }
 
         private void Bol_btn_Click(object sender, EventArgs e)
         {
-            zal_plus uus_aken = new zal_plus(9, 9);//запускает пустую форму
+            setting uus_aken = new setting(9, 9);//запускает пустую форму
             uus_aken.StartPosition = FormStartPosition.CenterScreen;
             uus_aken.ShowDialog();
         }
 
         private void Sred_btn_Click(object sender, EventArgs e)
         {
-            zal_plus uus_aken = new zal_plus(7, 7);//запускает пустую форму
+            setting uus_aken = new setting(7, 7);//запускает пустую форму
             uus_aken.StartPosition = FormStartPosition.CenterScreen;
             uus_aken.ShowDialog();
         }
 
         private void Mal_btn_Click(object sender, EventArgs e)
         {
-            zal_plus uus_aken = new zal_plus(5, 5);//запускает пустую форму
+            setting uus_aken = new setting(5, 5);//запускает пустую форму
             uus_aken.StartPosition = FormStartPosition.CenterScreen;
             uus_aken.ShowDialog();
         }

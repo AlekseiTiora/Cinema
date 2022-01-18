@@ -58,7 +58,7 @@
     <Compile Include="zal_form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="zal_plus.cs">
+    <Compile Include="setting.cs">
       <SubType>Form</SubType>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -88,8 +88,7 @@
     <Content Include="img\dzen.jpg" />
     <Content Include="img\elki.jpg" />
     <Content Include="img\fon.jpg" />
-    <Content Include="img\spider.png" />
-    <Content Include="img\valik.png" />
+    <Content Include="img\spider.jpg" />
     <Content Include="piletid.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

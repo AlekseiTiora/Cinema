@@ -11,7 +11,6 @@ namespace Cinema
 {
     class Menu: System.Windows.Forms.Form
     {
-        //ei tehtud
         List<string> listfilm;
         PictureBox pb;
         int schet = 0;
@@ -25,7 +24,7 @@ namespace Cinema
             Button K_btn = new Button
             {
                 Text = "Osta pilet",
-                Location = new System.Drawing.Point(300, 630),//Point(x,y)
+                Location = new System.Drawing.Point(90, 230),//Point(x,y)
                 Height = 60,
                 Width = 150,
             };
@@ -34,73 +33,75 @@ namespace Cinema
             Button l_btn = new Button
             {
                 Text = "=>",
-                Location = new System.Drawing.Point(550, 375),
-                Height = 36,
+                Location = new System.Drawing.Point(660, 375),
+                Height = 30,
                 Width = 60
             };
             l_btn.Click += L_btn_Click;
 
-            listfilm = new List<string> {"spider.png" ,"elki.jpg", "doctor.jpg", "elki.jpg", "spider.png", "doctor.jpg",  };
-
-            Button l_btn1 = new Button
-            {
-                Text = "<=",
-                Location = new System.Drawing.Point(120, 375),
-                Height = 36,
-                Width = 60
-            };
-            l_btn1.Click += L_btn1_Click;
 
             Label lbl = new Label
             {
                 Text = "Kinoteatr PEREC",
-                Size = new System.Drawing.Size(250, 60),
-                Location = new System.Drawing.Point(240, 25),
+                Size = new System.Drawing.Size(250, 30),
+                Location = new System.Drawing.Point(50, 25),
+                Font = new Font("Oswald", 16, FontStyle.Bold)
+
+            };
+
+            Label lbl1 = new Label
+            {
+                Text = "mis läheb kinno",
+                Size = new System.Drawing.Size(250, 30),
+                Location = new System.Drawing.Point(370, 50),
                 Font = new Font("Oswald", 16, FontStyle.Bold)
 
             };
 
             pb = new PictureBox();
             pb.Size = new Size(300, 500);
-            pb.Location = new Point(220, 90);
+            pb.Location = new Point(320, 90);
             pb.SizeMode = PictureBoxSizeMode.StretchImage;
-            pb.ImageLocation = (@"..\..\img\valik.png");
+            pb.ImageLocation = (@"..\..\img\doctor.jpg");
 
 
             this.Controls.Add(K_btn);
             this.Controls.Add(pb);
             this.Controls.Add(l_btn);
-            this.Controls.Add(l_btn1);
             this.Controls.Add(lbl);
-
+            this.Controls.Add(lbl1);
 
 
 
 
         }
 
-        private void L_btn1_Click(object sender, EventArgs e)
-        {
-            if (schet > 0)
-            {
-                pb.ImageLocation = ($"../../img/{listfilm[schet]}");
-                schet -= 1;
-            }
-        }
+
 
         private void L_btn_Click(object sender, EventArgs e)
         {
-            
-            if(schet < 2)
+            schet++;
+            if (schet == 1)
             {
-                pb.ImageLocation = ($"../../img/{listfilm[schet]}");
-                schet++;
+
+                pb.ImageLocation = (@"..\..\img\elki.jpg");
+
+            }
+            else if (schet == 2)
+            {
+
+                pb.ImageLocation = (@"..\..\img\dzen.jpg");
+            }
+            else if (schet == 3)
+            {
+                schet = 0;
+                pb.ImageLocation = (@"..\..\img\spider.jpg");
             }
         }
 
         private void K_btn_Click(object sender, EventArgs e)
         {
-            cinema uus_aken = new cinema();
+            zal_form uus_aken = new zal_form();
             uus_aken.StartPosition = FormStartPosition.CenterScreen;
             uus_aken.Show();
             this.Hide();
