@@ -17,6 +17,7 @@ namespace Cinema
 
         public Menu()
         {
+
             this.Height = 770;
             this.Width = 750;
             this.BackgroundImage = Image.FromFile(@"../../img/fon.jpg");
@@ -101,7 +102,8 @@ namespace Cinema
 
         private void K_btn_Click(object sender, EventArgs e)
         {
-            zal_form uus_aken = new zal_form();
+            //
+            perec uus_aken = new perec();
             uus_aken.StartPosition = FormStartPosition.CenterScreen;
             uus_aken.Show();
             this.Hide();
