@@ -91,8 +91,10 @@
     <Content Include="img\dzen.jpg" />
     <Content Include="img\elki.jpg" />
     <Content Include="img\fon.jpg" />
+    <Content Include="img\kino.jpg" />
     <Content Include="img\spider.jpg" />
     <Content Include="piletid.txt" />
+    <Content Include="zapisf.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

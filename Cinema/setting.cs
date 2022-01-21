@@ -103,33 +103,32 @@ namespace Cinema
         }
 
 
-        public void Saada_piletid(List<Pilet> piletid)
+        private void Saada_piletid(List<Pilet> piletid)
         {
-            string text = "Aleksei Tiora \n";
+            var film = File.ReadLines(@"..\..\zapisf.txt").Last();
+
+            string text = "PEREC\n";
             foreach (var item in piletid)
             {
-                text += "Pilet:\n" + "Rida: " + item.Rida + "Koht: " + item.Koht + "\n";
+                
+                text += " film on "+ film + "\n" + " Rida: " + item.Rida + " Koht: " + item.Koht + "\n"+"\n Aleksei Tiora";
             }
-
+            MailMessage message = new MailMessage();
+            message.To.Add(new MailAddress("programmeeriminetthk@gmail.com"));
+            message.From = new MailAddress("programmeeriminetthk@gmail.com");
+            message.Subject = "Ostetud piletid";
+            message.Body = text;
             string email = "programmeeriminetthk@gmail.com";
             string password = "2.kuursus tarpv20";
-            SmtpClient client = new SmtpClient("smtp.gmail.com");
-            client.Port = 587;
-            client.Credentials = new NetworkCredential(email, password);
-            client.EnableSsl = true;
-
-
+            SmtpClient client = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(email, password),
+                EnableSsl = true,
+            };
             try
             {
-
-                MailMessage message = new MailMessage();
-                message.To.Add(new MailAddress("programmeeriminetthk@gmail.com"));//kellele saada vaja küsida
-                message.From = new MailAddress("programmeeriminetthk@gmail.com");
-                message.Subject = "Ostetud piletid";
-                message.Body = text;
-                message.IsBodyHtml = true;
                 client.Send(message);
-
             }
             catch (Exception ex)
             {

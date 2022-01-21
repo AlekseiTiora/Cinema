@@ -33,7 +33,7 @@ namespace Cinema
 
             Button l_btn = new Button
             {
-                Text = "=>",
+                Text = ">",
                 Location = new System.Drawing.Point(660, 375),
                 Height = 30,
                 Width = 60
