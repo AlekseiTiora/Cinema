@@ -8,11 +8,11 @@ using System.Windows.Forms;
 
 namespace Cinema
 {
-    public partial class zal_form : Form
+    public partial class zalf : Form
     {
 
 
-        public zal_form()
+        public zalf()
         {
 
             this.ClientSize = new System.Drawing.Size(400, 350);

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Cinema
 {
-    class Menu: System.Windows.Forms.Form
+    class Menu : System.Windows.Forms.Form
     {
         List<string> listfilm;
         PictureBox pb;
@@ -40,6 +40,16 @@ namespace Cinema
             };
             l_btn.Click += L_btn_Click;
 
+            Button p_btn = new Button
+            {
+                Text = "<",
+                Location = new System.Drawing.Point(220, 375),
+                Height = 30,
+                Width = 60
+            };
+            p_btn.Click += P_btn_Click;
+
+
 
             Label lbl = new Label
             {
@@ -65,38 +75,35 @@ namespace Cinema
             pb.SizeMode = PictureBoxSizeMode.StretchImage;
             pb.ImageLocation = (@"..\..\img\doctor.jpg");
 
-
+            
             this.Controls.Add(K_btn);
             this.Controls.Add(pb);
+            this.Controls.Add(p_btn);
             this.Controls.Add(l_btn);
             this.Controls.Add(lbl);
             this.Controls.Add(lbl1);
 
 
-
+            listfilm = new List<string>() { "dzen.jpg", "spider.jpg", "elki.jpg", "doctor.jpg" };
 
         }
 
+        private void P_btn_Click(object sender, EventArgs e)
+        {
+            if (schet > 0)
+            {
 
+                pb.ImageLocation = ($"../../img/{listfilm[schet]}");
+                schet -= 1;
+            }
+        }
 
         private void L_btn_Click(object sender, EventArgs e)
         {
-            schet++;
-            if (schet == 1)
+            if (schet < 2)
             {
-
-                pb.ImageLocation = (@"..\..\img\elki.jpg");
-
-            }
-            else if (schet == 2)
-            {
-
-                pb.ImageLocation = (@"..\..\img\dzen.jpg");
-            }
-            else if (schet == 3)
-            {
-                schet = 0;
-                pb.ImageLocation = (@"..\..\img\spider.jpg");
+                pb.ImageLocation = ($"../../img/{listfilm[schet]}");
+                schet++;
             }
         }
 

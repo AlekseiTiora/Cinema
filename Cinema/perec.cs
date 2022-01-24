@@ -60,7 +60,7 @@ namespace Cinema
 
         private void Pb3_Click(object sender, EventArgs e)
         {
-            zal_form uus_aken = new zal_form();
+            zalf uus_aken = new zalf();
             uus_aken.StartPosition = FormStartPosition.CenterScreen;
             uus_aken.Show();
             string dzen = "dzentelmeni";
@@ -73,7 +73,7 @@ namespace Cinema
 
         private void Pb2_Click(object sender, EventArgs e)
         {
-            zal_form uus_aken = new zal_form();
+            zalf uus_aken = new zalf();
             uus_aken.StartPosition = FormStartPosition.CenterScreen;
             uus_aken.Show();
             string spider = "spider man no way home";
@@ -87,7 +87,7 @@ namespace Cinema
 
         private void Pb1_Click(object sender, EventArgs e)
         {
-            zal_form uus_aken = new zal_form();
+            zalf uus_aken = new zalf();
             uus_aken.StartPosition = FormStartPosition.CenterScreen;
             uus_aken.Show();
             string elki = "elki 8";
@@ -102,7 +102,7 @@ namespace Cinema
 
         private void Pb_Click(object sender, EventArgs e)
         {
-            zal_form uus_aken = new zal_form();
+            zalf uus_aken = new zalf();
             uus_aken.StartPosition = FormStartPosition.CenterScreen;
             uus_aken.Show();
             string doctor = "doctor strange";
