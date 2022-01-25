@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -21,6 +23,12 @@ namespace Cinema
         static List<Pilet> piletid;
         int k, r;
         static string[] read_kohad;
+
+        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\Source\Repos\Cinema88\Cinema\AppData\Kino_DB.mdf;Integrated Security=True";
+        SqlConnection connect_to_DB = new SqlConnection(conn_KinoDB);
+
+        SqlCommand command;
+        SqlDataAdapter adapter;
 
 
         public setting()
@@ -102,37 +110,62 @@ namespace Cinema
             this.Controls.Add(tlp);
         }
 
-
+        string po4ta = "";
         private void Saada_piletid(List<Pilet> piletid)
         {
-            var film = File.ReadLines(@"..\..\zapisf.txt").Last();
+            po4ta = Interaction.InputBox("Email", "Email");
+            if (po4ta != "")
+            {
+                var film = File.ReadLines(@"..\..\zapisf.txt").Last();
+                connect_to_DB.Open();
+                string text = "PEREC\n";
 
-            string text = "PEREC\n";
-            foreach (var item in piletid)
-            {
-                
-                text += " film on "+ film + "\n" + " Rida: " + item.Rida + " Koht: " + item.Koht + "\n"+"\n Aleksei Tiora";
+
+                foreach (var item in piletid)
+                {
+                    text += " film on " + film + "\n" + " Rida: " + item.Rida + " Koht: " + item.Koht + "\n" + "\n Aleksei Tiora";
+                    command = new SqlCommand("INSERT INTO Piletid(Rida,Koht,Film) Values(@rida,@koht,@film)", connect_to_DB);
+                    command.Parameters.AddWithValue("@rida", item.Rida);
+                    command.Parameters.AddWithValue("@koht", item.Koht);
+                    command.Parameters.AddWithValue("@film", 1);
+                    command.ExecuteNonQuery();
+                }
+                connect_to_DB.Close();
+
+                MailMessage message = new MailMessage();
+                message.To.Add(new MailAddress(po4ta));
+                message.From = new MailAddress(po4ta);
+                message.Subject = "Ostetud piletid";
+                message.Body = text;
+                string email = "programmeeriminetthk@gmail.com";
+                string password = "2.kuursus tarpv20";
+                SmtpClient client = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential(email, password),
+                    EnableSsl = true,
+                };
+                try
+                {
+                    client.Send(message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
-            MailMessage message = new MailMessage();
-            message.To.Add(new MailAddress("programmeeriminetthk@gmail.com"));
-            message.From = new MailAddress("programmeeriminetthk@gmail.com");
-            message.Subject = "Ostetud piletid";
-            message.Body = text;
-            string email = "programmeeriminetthk@gmail.com";
-            string password = "2.kuursus tarpv20";
-            SmtpClient client = new SmtpClient("smtp.gmail.com")
+            else
             {
-                Port = 587,
-                Credentials = new NetworkCredential(email, password),
-                EnableSsl = true,
-            };
-            try
-            {
-                client.Send(message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
+                if (MessageBox.Show("E-post on valesti sisestatud.\nKas soovite korrata?", "Viga", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+
+                    Saada_piletid(piletid);
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+
             }
         }
         private void Pileti_valik(object sender, EventArgs e)

@@ -19,13 +19,13 @@ namespace Cinema
         {
 
             this.Height = 770;
-            this.Width = 750;
+            this.Width = 540;
             this.BackgroundImage = Image.FromFile(@"../../img/fon.jpg");
 
             Button K_btn = new Button
             {
                 Text = "Osta pilet",
-                Location = new System.Drawing.Point(90, 230),//Point(x,y)
+                Location = new System.Drawing.Point(180, 630),//Point(x,y)
                 Height = 60,
                 Width = 150,
             };
@@ -34,7 +34,7 @@ namespace Cinema
             Button l_btn = new Button
             {
                 Text = ">",
-                Location = new System.Drawing.Point(660, 375),
+                Location = new System.Drawing.Point(430, 375),
                 Height = 30,
                 Width = 60
             };
@@ -43,7 +43,7 @@ namespace Cinema
             Button p_btn = new Button
             {
                 Text = "<",
-                Location = new System.Drawing.Point(220, 375),
+                Location = new System.Drawing.Point(25, 375),
                 Height = 30,
                 Width = 60
             };
@@ -54,24 +54,24 @@ namespace Cinema
             Label lbl = new Label
             {
                 Text = "Kinoteatr PEREC",
-                Size = new System.Drawing.Size(250, 30),
-                Location = new System.Drawing.Point(50, 25),
+                Size = new System.Drawing.Size(200, 40),
+                Location = new System.Drawing.Point(5, 10),
                 Font = new Font("Oswald", 16, FontStyle.Bold)
 
             };
 
             Label lbl1 = new Label
             {
-                Text = "mis läheb kinno",
-                Size = new System.Drawing.Size(250, 30),
-                Location = new System.Drawing.Point(370, 50),
+                Text = "mis läheb ",
+                Size = new System.Drawing.Size(150, 30),
+                Location = new System.Drawing.Point(170, 60),
                 Font = new Font("Oswald", 16, FontStyle.Bold)
 
             };
 
             pb = new PictureBox();
             pb.Size = new Size(300, 500);
-            pb.Location = new Point(320, 90);
+            pb.Location = new Point(120, 90);
             pb.SizeMode = PictureBoxSizeMode.StretchImage;
             pb.ImageLocation = (@"..\..\img\doctor.jpg");
 
