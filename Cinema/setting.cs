@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
@@ -24,7 +25,7 @@ namespace Cinema
         int k, r;
         static string[] read_kohad;
 
-        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\Source\Repos\Cinema88\Cinema\AppData\Kino_DB.mdf;Integrated Security=True";
+        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\Source\Repos\Cinema887\Cinema\AppData\Kino_DB.mdf;Integrated Security=True";
         SqlConnection connect_to_DB = new SqlConnection(conn_KinoDB);
 
         SqlCommand command;
@@ -38,10 +39,24 @@ namespace Cinema
         {
             try
             {
-                StreamReader f = new StreamReader(@"..\..\piletid.txt");
+                /*StreamReader f = new StreamReader(@"..\..\piletid.txt");
                 read_kohad = f.ReadToEnd().Split(';');
-
-                f.Close();
+                
+                f.Close();*/
+                connect_to_DB.Open();
+                adapter = new SqlDataAdapter("SELECT * FROM [dbo].[Piletid]", connect_to_DB);
+                DataTable tabel = new DataTable();
+                adapter.Fill(tabel);
+                read_kohad = new string[tabel.Rows.Count];
+                var index = 0;
+                foreach (DataRow row in tabel.Rows)
+                {
+                    var rida = row["Rida"];
+                    var koht = row["Koht"];
+                    read_kohad[index++] = $"{rida}{koht}";
+                }
+                connect_to_DB.Close();
+            
             }
             catch (Exception e)
             {

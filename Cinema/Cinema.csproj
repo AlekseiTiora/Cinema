@@ -62,6 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="admin.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +114,7 @@
     <Content Include="img\dzen.jpg" />
     <Content Include="img\elki.jpg" />
     <Content Include="img\fon.jpg" />
+    <Content Include="img\gif.gif" />
     <Content Include="img\kino.jpg" />
     <Content Include="img\spider.jpg" />
     <Content Include="piletid.txt" />

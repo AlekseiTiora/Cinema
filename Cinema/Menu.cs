@@ -31,25 +31,14 @@ namespace Cinema
             };
             K_btn.Click += K_btn_Click;
 
-            Button l_btn = new Button
+            Button admin_b = new Button
             {
-                Text = ">",
-                Location = new System.Drawing.Point(430, 375),
+                Text = "admin",
+                Location = new System.Drawing.Point(470, 0),//Point(x,y)
                 Height = 30,
-                Width = 60
+                Width = 60,
             };
-            l_btn.Click += L_btn_Click;
-
-            Button p_btn = new Button
-            {
-                Text = "<",
-                Location = new System.Drawing.Point(25, 375),
-                Height = 30,
-                Width = 60
-            };
-            p_btn.Click += P_btn_Click;
-
-
+            admin_b.Click += Admin_b_Click;
 
             Label lbl = new Label
             {
@@ -71,15 +60,15 @@ namespace Cinema
 
             pb = new PictureBox();
             pb.Size = new Size(300, 500);
-            pb.Location = new Point(120, 90);
+            pb.Location = new Point(110, 100);
             pb.SizeMode = PictureBoxSizeMode.StretchImage;
-            pb.ImageLocation = (@"..\..\img\doctor.jpg");
+            pb.ImageLocation = (@"..\..\img\gif.gif");
 
-            
+
+
             this.Controls.Add(K_btn);
             this.Controls.Add(pb);
-            this.Controls.Add(p_btn);
-            this.Controls.Add(l_btn);
+            this.Controls.Add(admin_b);
             this.Controls.Add(lbl);
             this.Controls.Add(lbl1);
 
@@ -88,23 +77,12 @@ namespace Cinema
 
         }
 
-        private void P_btn_Click(object sender, EventArgs e)
+        private void Admin_b_Click(object sender, EventArgs e)
         {
-            if (schet > 0)
-            {
+            admin uus_aken = new admin ();
+            uus_aken.StartPosition = FormStartPosition.CenterScreen;
+            uus_aken.Show();
 
-                pb.ImageLocation = ($"../../img/{listfilm[schet]}");
-                schet -= 1;
-            }
-        }
-
-        private void L_btn_Click(object sender, EventArgs e)
-        {
-            if (schet < 2)
-            {
-                pb.ImageLocation = ($"../../img/{listfilm[schet]}");
-                schet++;
-            }
         }
 
         private void K_btn_Click(object sender, EventArgs e)
