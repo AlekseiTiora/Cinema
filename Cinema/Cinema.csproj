@@ -118,6 +118,11 @@
     <Content Include="img\kino.jpg" />
     <Content Include="img\spider.jpg" />
     <Content Include="piletid.txt" />
+    <Content Include="Posterid\doctor.jpg" />
+    <Content Include="Posterid\dzen.jpg" />
+    <Content Include="Posterid\elki.jpg" />
+    <Content Include="Posterid\spider.jpg" />
+    <Content Include="Posterid\Start.jpg" />
     <Content Include="zapisf.txt" />
   </ItemGroup>
   <ItemGroup>

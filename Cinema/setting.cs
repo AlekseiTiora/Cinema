@@ -25,7 +25,7 @@ namespace Cinema
         int k, r;
         static string[] read_kohad;
 
-        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\Source\Repos\Cinema887\Cinema\AppData\Kino_DB.mdf;Integrated Security=True";
+        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\mrljo\Source\Repos\Cinema887\Cinema\AppData\Kino_DB.mdf;Integrated Security=True";
         SqlConnection connect_to_DB = new SqlConnection(conn_KinoDB);
 
         SqlCommand command;
