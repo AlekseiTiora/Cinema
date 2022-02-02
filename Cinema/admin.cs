@@ -17,16 +17,9 @@ namespace Cinema
 
         SqlCommand command;
         SqlDataAdapter adapter;
-        Button film_uuenda, film_kustuta, film_naita;
-        Label title_;
-        Label lbl1;
-        Label lbl2;
-        Label lbl3;
-        TextBox text1;
-
-        TextBox text3;
-        TextBox text4;
-        Button add;
+        Button film_uuenda, film_kustuta, film_naita,film_lisama;
+        Label nimetus,aasta,pilt;
+        //--------------------
         public admin()
         {
 
@@ -39,14 +32,17 @@ namespace Cinema
             };
             this.Controls.Add(pilet_naita);
             pilet_naita.Click += Pilet_naita_Click;*/
+
+
             film_naita = new Button
             {
-                Location = new System.Drawing.Point(50, 25),
-                Size = new System.Drawing.Size(80, 25),
+                Location = new System.Drawing.Point(50, 20),
+                Size = new System.Drawing.Size(100, 40),
                 Text = "Näita filmid"
             };
             this.Controls.Add(film_naita);
             film_naita.Click += Film_naita_Click;
+
             film_uuenda = new Button
             {
                 Location = new System.Drawing.Point(650, 75),
@@ -56,6 +52,7 @@ namespace Cinema
             };
             this.Controls.Add(film_uuenda);
             film_uuenda.Click += Film_uuenda_Click;
+
             film_kustuta = new Button
             {
                 Location = new System.Drawing.Point(650, 100),
@@ -64,115 +61,62 @@ namespace Cinema
 
 
             };
-            this.Controls.Add(film_kustuta);
+           film_kustuta.Click += film_kustuta_Click;
+           
+           this.Controls.Add(film_kustuta);
 
-            Button insert = new Button()
+           film_lisama = new Button
+           {
+                Location = new System.Drawing.Point(650,125),
+                Size = new System.Drawing.Size(80,25),
+                Text = "lisamine",
+           };
+            film_lisama.Click += Film_lisama_Click;
+            this.Controls.Add(film_lisama);
+           
+            nimetus = new Label
             {
-                Text = "Insert",
-                Size = new Size(100, 40),
-                Location = new Point(210, 20)
+                Text ="nimetus",
+                Location = new System.Drawing.Point(560,75),
+                Size = new Size(70, 20),
+                Font = new Font(Font.FontFamily, 10),
             };
-            this.Controls.Add(insert);
-            insert.Click += Insert_Click;
+
+            aasta = new Label
+            {
+                Text ="aasta",
+                Location = new System.Drawing.Point(560,100),
+                Size = new Size(70, 20),
+                Font = new Font(Font.FontFamily, 10),
+            };
+
+            pilt = new Label
+            {
+                Text ="pilt",
+                Location = new System.Drawing.Point(560,125),
+                Size = new Size(70, 20),
+                Font = new Font(Font.FontFamily, 10),
+            };
+            
+            
 
         }
 
-        private void Insert_Click(object sender, EventArgs e)
-        {
-            if (dataGridView != null)
-            {
-                dataGridView.Hide();
-
-            }
-            if (title_ != null)
-            { 
-                film_uuenda.Hide();
-                film_txt.Hide();
-                aasta_txt.Hide();
-                poster_txt.Hide();
-                poster.Hide();
-            }
-
-
-            lbl1 = new Label()
-            {
-                Text = "nimetus: ",
-                Size = new Size(60, 20),
-                Font = new Font(Font.FontFamily, 10),
-                Location = new Point(20, 160),
-
-            };
-
-
-            lbl2 = new Label()
-            {
-                Text = "aasta: ",
-                Size = new Size(60, 20),
-                Font = new Font(Font.FontFamily, 10),
-                Location = new Point(20, 200),
-            };
-
-            lbl3 = new Label()
-            {
-                Text = "pilt: ",
-                Size = new Size(60, 20),
-                Font = new Font(Font.FontFamily, 10),
-                Location = new Point(20, 240),
-            };
-
-            text1 = new TextBox()
-            {
-                Size = new Size(120, 30),
-                Location = new Point(90, 160)
-            };
-
-
-            text3 = new TextBox()
-            {
-                Size = new Size(120, 30),
-                Location = new Point(90, 200)
-            };
-
-            text4 = new TextBox()
-            {
-                Size = new Size(120, 30),
-                Location = new Point(90, 240)
-            };
-
-            add = new Button()
-            {
-                Text = "lisama",
-                Size = new Size(160, 40),
-                Location = new Point(50, 290),
-                Font = new Font(Font.FontFamily, 10)
-            };
-            add.Click += Add_Click;
-
-            this.Controls.Add(lbl1);
-            this.Controls.Add(lbl2);
-            this.Controls.Add(lbl3);
-            this.Controls.Add(text1); 
-            this.Controls.Add(text3);
-            this.Controls.Add(text4);
-            this.Controls.Add(add);
-        }
-
-        private void Add_Click(object sender, EventArgs e)
+        private void Film_lisama_Click(object sender, EventArgs e)
         {
             connect_to_DB.Open();
 
             command = new SqlCommand("insert into Filmid(nimetus, aasta,pilt) values(@nimetus, @aasta, @pilt)", connect_to_DB);
-            command.Parameters.AddWithValue("@nimetus", text1.Text);
-            command.Parameters.AddWithValue("@aasta", text3.Text);
-            command.Parameters.AddWithValue("@pilt", text4.Text);
+            command.Parameters.AddWithValue("@nimetus", film_txt.Text);
+            command.Parameters.AddWithValue("@aasta", aasta_txt.Text);
+            command.Parameters.AddWithValue("@pilt", poster_txt.Text);
             command.ExecuteNonQuery();
 
             MessageBox.Show("lisatud tabelisse.");
 
             connect_to_DB.Close();
-
+        
         }
-
         static int Id = 0;
 
         private void Film_uuenda_Click(object sender, EventArgs e)
@@ -201,9 +145,20 @@ namespace Cinema
             }
 
         }
+        private void film_kustuta_Click(object sender, EventArgs e)
+        {
+            connect_to_DB.Open();
+            command = new SqlCommand("delete from Filmid where id = @id", connect_to_DB);
+            command.Parameters.AddWithValue("id", Id);
+            command.ExecuteNonQuery();
+            MessageBox.Show("film kustetud");
+            connect_to_DB.Close();
+        }
 
         private void Pilet_naita_Click(object sender, EventArgs e)
         {
+
+
             connect_to_DB.Open();
             DataTable tabel_p = new DataTable();
             DataGridView dataGridView_p = new DataGridView();
@@ -248,6 +203,7 @@ namespace Cinema
         DataTable tabel;
         private void Film_naita_Click(object sender, EventArgs e)
         {
+
             film_naita.Text = "Peida filmid";
             film_uuenda.Visible = true;
             film_kustuta.Visible = true;
@@ -264,6 +220,7 @@ namespace Cinema
                 Location = new System.Drawing.Point(450, 150),
                 Image = Image.FromFile("../../Posterid/Start.jpg")
             };
+
 
             Data();
 
@@ -286,6 +243,9 @@ namespace Cinema
             this.Controls.Add(aasta_txt);
             this.Controls.Add(poster_txt);
             this.Controls.Add(poster);
+            this.Controls.Add(nimetus);
+            this.Controls.Add(aasta);
+            this.Controls.Add(pilt);
         }
         private void DataGridView_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -307,5 +267,5 @@ namespace Cinema
             poster.Image = Image.FromFile("../../Posterid/Start.jpg");
 
         }
-    }
+    } 
 }
